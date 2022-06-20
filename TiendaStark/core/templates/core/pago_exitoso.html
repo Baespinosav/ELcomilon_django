@@ -3,6 +3,8 @@
 
 {% block stylesheet %}
     <link href="{% static 'core/css/iniciar_sesion.css'%}" rel="stylesheet">
+    <link href="{% static 'core/css/style.css'%}" rel="stylesheet">
+    <link href="{% static 'core/css/bootstrap.min.css' %}" rel="stylesheet">
 {% endblock %}
 
 {% block content %}
@@ -15,8 +17,6 @@
 
                     Número de Orden de Compra: {{ buy_order }}<br><br>
                     Nombre cliente: {{ first_name }} {{ last_name }}<br><br>
-                    RUT: {{ rut }}<br><br>
-                    Dirección: {{ direccion }}<br><br>
                     Correo electrónico: {{ email }}<br><br>
                     Monto a Pagar: {{ amount }}<br><br>
 

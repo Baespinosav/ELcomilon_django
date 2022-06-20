@@ -113,7 +113,6 @@ def pago_exitoso(request):
         print("response: {}".format(response))
 
         user = User.objects.get(username=response['session_id'])
-        perfil = PerfilUsuario.objects.get(user=user)
         form = PerfilUsuarioForm()
 
         context = {
@@ -125,8 +124,6 @@ def pago_exitoso(request):
             "first_name": user.first_name,
             "last_name": user.last_name,
             "email": user.email,
-            "rut": perfil.rut,
-            "direccion": perfil.direccion,
             "response_code": response['response_code']
         }
 
@@ -160,9 +157,9 @@ def administrar_productos(request, action, id):
             if form.is_valid:
                 try:
                     form.save()
-                    data["mesg"] = "¡El vehículo fue creado correctamente!"
+                    data["mesg"] = "¡El producto fue creado correctamente!"
                 except:
-                    data["mesg"] = "¡No se puede crear dos vehículos con la misma patente!"
+                    data["mesg"] = "¡No se pueden crear dos producto con la misma id!"
 
     elif action == 'upd':
         objeto = Vehiculo.objects.get(patente=id)
@@ -170,16 +167,16 @@ def administrar_productos(request, action, id):
             form = VehiculoForm(data=request.POST, files=request.FILES, instance=objeto)
             if form.is_valid:
                 form.save()
-                data["mesg"] = "¡El vehículo fue actualizado correctamente!"
+                data["mesg"] = "¡El producto fue actualizado correctamente!"
         data["form"] = VehiculoForm(instance=objeto)
 
     elif action == 'del':
         try:
             Vehiculo.objects.get(patente=id).delete()
-            data["mesg"] = "¡El vehículo fue eliminado correctamente!"
+            data["mesg"] = "¡El producto fue eliminado correctamente!"
             return redirect(administrar_productos, action='ins', id = '-1')
         except:
-            data["mesg"] = "¡El vehículo ya estaba eliminado!"
+            data["mesg"] = "¡El producto ya estaba eliminado!"
 
     data["list"] = Vehiculo.objects.all().order_by('patente')
     return render(request, "core/administrar_productos.html", data)
